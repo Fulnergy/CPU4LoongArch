@@ -1,1 +1,2 @@
 # CPU4LoongArch
+实则是CPU4RISC-V
