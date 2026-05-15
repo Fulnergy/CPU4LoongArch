@@ -29,9 +29,26 @@ decoder udecoder(
 
 );
 
+alu ualu(
+
+);
+
+control ucontrol(
+
+);
+
+register uregister(
+
+);
+
+always @() begin
+    //register的输出如何给dmem
+end
+
 dmem #() udmem(
 
 );
+
 
 
 
