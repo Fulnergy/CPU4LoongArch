@@ -1,7 +1,7 @@
 `include "..." 
-module IFetch(
+module iFetch(
 input clk, rst, branch, zero,
-input [31:0] imm,
+input [31:0] imm,//立即数，即pc地址偏移量
 output [31:0] inst
     );
     reg [31:0] pc;

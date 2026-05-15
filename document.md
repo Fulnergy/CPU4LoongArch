@@ -7,3 +7,7 @@
 # 数组格式约定
 所有数组深度，声明时下标[低:高]
 `例：reg [DATA_WIDTH-1:0] mem [0:(1<<ADDR_WIDTH)-1];`
+
+# 数据存储
+dMem的最高256byte预留给io
+即0xFFFF_F000到0xFFFF_FFFF将映射至输入输出。

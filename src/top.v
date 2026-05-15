@@ -17,4 +17,22 @@ always @(posedge clk) begin
     end
 end
 
+reg [31:0] imm; //指令中提取出的立即数
+reg [31:0] inst;
+wire branch, aluSrc, memRead, memWrite, memToReg;
+iFetch uifetch(
+
+);
+
+reg [1:0] aluOp;
+decoder udecoder(
+
+);
+
+dmem #() udmem(
+
+);
+
+
+
 endmodule

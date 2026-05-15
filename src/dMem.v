@@ -1,8 +1,7 @@
 module dMem #(
-    parameter DATA_WIDTH = 32, // Memory bit width
-    parameter ADDR_WIDTH = 14, // Memory depth = 2^ADDR_WIDTH
-    // Recommend using relative path; put file in same directory
-    parameter INIT_FILE  = "memdata.hex"  // Relative path to hex file, empty if all zeros
+    parameter DATA_WIDTH = 32,
+    parameter ADDR_WIDTH = 14,
+    parameter INIT_FILE  = "memdata.hex"
 )(
     input clka,
     input wea,
