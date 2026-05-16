@@ -9,6 +9,8 @@ output reg [6:0] func7,
 output reg [4:0] rs1,rs2,rd,
 //alu该运算寄存器还是立即数？若aluOp为1，则运算寄存器，否则运算立即数
 output reg aluOp,
+//这条指令要将PC加上立即数吗？若auipc为1，则num1取PC，否则取rs1的值
+output reg auipc,
 //存取部分：
 output reg regWrite,
 output reg memWrite,
@@ -33,7 +35,9 @@ assign func7 = inst[31:25];
 assign rs1 = inst[19:15];
 assign rs2 = inst[24:20];
 assign rd = inst[11:7];
-assign aluOp = opc == RTYPE ? 1 : 0;
+assign aluOp = opc == RTYPE ||
+               opc == BTYPE ? 1 : 0;
+assign auipc = opc == UTYPE_AUIPC ? 1 : 0;
 
 assign regWrite = opc == RTYPE ||
                   opc == ITYPE_ALU ||
@@ -47,8 +51,7 @@ assign memWrite = opc == STYPE ? 1 : 0;
 
 assign branch = opc == BTYPE ||
                 opc == ITYPE_JALR ||
-                opc == JTYPE ||
-                opc == UTYPE_AUIPC ? 1 : 0;
+                opc == JTYPE ? 1 : 0;
 
 always @(*) begin
     case (opc)

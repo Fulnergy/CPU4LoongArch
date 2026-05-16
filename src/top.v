@@ -19,37 +19,68 @@ end
 
 reg [31:0] imm; //指令中提取出的立即数
 reg [31:0] inst;
-wire branch, aluSrc, memRead, memWrite, memToReg;
-iFetch uifetch(
+wire branch, memRead, memWrite;
+wire zero;
+wire [2:0] func3;
+wire [6:0] func7;
+wire [4:0] rs1, rs2, rd;
+wire aluOp, auipc, regWrite;
+wire [31:0] num1, num2, result;
+wire [31:0] readData1, readData2, writeData;
 
+wire [31:0] pc;
+
+assign num1 = auipc ? pc : readData1;
+assign num2 = aluOp ? readData2 : imm;
+
+decoder udecoder(
+    .inst(inst),
+    .imm(imm),
+    .func3(func3),
+    .func7(func7),
+    .rs1(rs1),
+    .rs2(rs2),
+    .rd(rd),
+    .aluOp(aluOp),
+    .auipc(auipc),
+    .regWrite(regWrite),
+    .memWrite(memWrite),
+    .branch(branch)
 );
 
-reg [1:0] aluOp;
-decoder udecoder(
-
+iFetch uifetch(
+    .clk(clk),
+    .rst(rst),
+    .branch(branch),
+    .imm(imm),
+    .zero(zero),
+    .inst(inst),
+    .pc(pc)
 );
 
 alu ualu(
-
+    .func3(func3),
+    .func7(func7),
+    .num1(num1),
+    .num2(num2),
+    .result(result),
+    .zero(zero)
 );
 
-control ucontrol(
-
+regs uregister(
+    .clk(clk),
+    .writeReg(regWrite),
+    .rs1(rs1),
+    .rs2(rs2),
+    .rd(rd),
+    .writeData(writeData),
+    .readData1(readData1),
+    .readData2(readData2)
 );
-
-register uregister(
-
-);
-
-always @() begin
-    //register的输出如何给dmem
-end
 
 dmem #() udmem(
 
 );
-
-
 
 
 endmodule
