@@ -11,6 +11,12 @@ output reg [4:0] rs1,rs2,rd,
 output reg aluOp,
 //这条指令要将PC加上立即数吗？若auipc为1，则num1取PC，否则取rs1的值
 output reg auipc,
+//alu中怎么处理立即数？若lui为1，则直接采取立即数作为输出，否则进行二元运算。
+output reg lui,
+//该指令是否从内存读取数据？若memRead为1，则writeData取dout，否则取其他。
+output reg memRead,
+//该指令是否写回PC+4？若jal为1，则writeData取pc+4，否则取其他。
+output reg jal,
 //存取部分：
 output reg regWrite,
 output reg memWrite,
@@ -38,6 +44,9 @@ assign rd = inst[11:7];
 assign aluOp = opc == RTYPE ||
                opc == BTYPE ? 1 : 0;
 assign auipc = opc == UTYPE_AUIPC ? 1 : 0;
+assign lui = opc == UTYPE_LUI ? 1 : 0;
+assign memRead = opc == ITYPE_LOAD ? 1 : 0;
+assign jal = (opc == JTYPE || opc == ITYPE_JALR) ? 1 : 0;
 
 assign regWrite = opc == RTYPE ||
                   opc == ITYPE_ALU ||
@@ -85,5 +94,4 @@ always @(*) begin
 end
 
 endmodule
-
 

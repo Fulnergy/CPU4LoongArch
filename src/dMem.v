@@ -5,6 +5,7 @@ module dMem #(
 )(
     input clk,
     input writeEn,
+    input [3:0] byteWe,
     input [ADDR_WIDTH-1:0] addr,
     input [DATA_WIDTH-1:0] din,
     output reg [DATA_WIDTH-1:0] dout
@@ -21,11 +22,12 @@ module dMem #(
     end
 
     always @(posedge clk) begin
+        dout <= mem[addr];
         if (writeEn) begin
-            mem[addr]<=din;
-            dout<=din;
-        end else begin
-            dout<= mem[addr];
+            if (byteWe[0]) mem[addr][7:0]   <= din[7:0];
+            if (byteWe[1]) mem[addr][15:8]  <= din[15:8];
+            if (byteWe[2]) mem[addr][23:16] <= din[23:16];
+            if (byteWe[3]) mem[addr][31:24] <= din[31:24];
         end
     end
 
